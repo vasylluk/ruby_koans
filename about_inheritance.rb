@@ -44,6 +44,7 @@ class AboutInheritance < Neo::Koan
       fido = Dog.new("Fido")
       fido.wag
     end
+    assert_equal "Chico", chico.name #my assertion
   end
 
   def test_subclasses_can_modify_existing_behavior

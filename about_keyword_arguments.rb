@@ -11,6 +11,7 @@ class AboutKeywordArguments < Neo::Koan
     assert_equal [1,"two"], method_with_keyword_arguments
     assert_equal ["one", "two"], method_with_keyword_arguments(one: 'one')
     assert_equal [1,2], method_with_keyword_arguments(two: 2)
+    assert_equal [1,"two"], method_with_keyword_arguments(one: 1) #my assertion
   end
 
   def method_with_keyword_arguments_with_mandatory_argument(one, two: 2, three: 3)

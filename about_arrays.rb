@@ -7,7 +7,6 @@ class AboutArrays < Neo::Koan
     assert_equal 0, empty_array.size
     empty_array[0] = 1 #add some element
     assert_equal 1, empty_array.size #empty array isn't empty already
-
   end
 
   def test_array_literals

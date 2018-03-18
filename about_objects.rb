@@ -47,6 +47,6 @@ class AboutObjects < Neo::Koan
     copy1 = copy #create the same one
     assert_equal true, obj!= copy
     assert_equal true, obj.object_id != copy.object_id
-    assert_equal false, copy.object_id != copy1.object_id #tehir id are equal
+    assert_equal false, copy.object_id != copy1.object_id #their id are equal
   end
 end

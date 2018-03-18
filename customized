@@ -1,0 +1,456 @@
+My own path to enlightenment
+1 - AboutArrayAssignment:
+1  def test_swapping_with_parallel_assignment
+    first_name = "Roy"
+    last_name = "Rob"
+    first_name, last_name = last_name, first_name #metamorphosum
+    assert_equal "Rob", first_name
+    assert_equal "Roy", last_name
+  end
+
+2 - AboutArrayAssignment
+2  def test_creating_arrays
+    empty_array = Array.new
+    assert_equal Array, empty_array.class
+    assert_equal 0, empty_array.size
+    empty_array[0] = 1 #add some element
+    assert_equal 1, empty_array.size #empty array isn't empty already
+  end
+
+
+3  def test_accessing_array_elements
+    array = [:peanut, :butter, :and, :jelly]
+
+    assert_equal :peanut, array[0]
+    assert_equal :peanut, array.first
+    assert_equal :jelly, array[3]
+    assert_equal :jelly, array.last
+    assert_equal :jelly, array[-1]
+    assert_equal :butter, array[-3]
+    assert_equal nil, array[30] #empty cells have nil values
+  end
+
+4  def test_pushing_and_popping_arrays
+    array = [1,2]
+    array.push(:last)
+    assert_equal [1,2,:last], array
+
+    popped_value = array.pop
+    assert_equal :last, popped_value
+    assert_equal [1,2], array
+
+    array.clear #and it's empty again
+    assert_equal [], array
+  end
+
+3 - AboutAsserts
+5  def test_assert_equality
+    expected_value = "11"     #that was int, now it's string
+    actual_value = "1" + "1"
+
+    assert expected_value == actual_value
+  end
+
+6  def test_a_better_way_of_asserting_equality
+    expected_value = 2.0  #float 2.0 == int 2
+    actual_value = 1 + 1
+
+    assert_equal expected_value, actual_value
+  end
+
+7  def test_a_better_way_of_asserting_equality
+    expected_value = 2.0  #float 2.0 == int 2
+    actual_value = 1 + 1
+
+    assert_equal expected_value, actual_value
+  end
+
+4 - AboutBlocks
+8  def test_blocks_can_be_assigned_to_variables_and_called_explicitly
+    add_one = lambda { |n| n + 1 }
+    divide_ten = lambda { |n| n / 10 } #my block
+    assert_equal 11, add_one.call(10)
+    assert_equal 1, divide_ten.call(10)
+
+    # Alternative calling syntax
+    assert_equal 11, add_one[10]
+    assert_equal 1, divide_ten[10]
+
+  end
+
+9  def test_objects_have_methods
+    fido = Dog.new
+    assert fido.methods.size > 0
+    assert fido.methods.size < 100 #my assertion
+  end
+
+10  def test_heres_an_easy_way_to_call_class_methods_from_instance_methods
+    fido = Dog.new
+    assert_equal :still_another_way, fido.class.another_class_method
+    assert_equal :another_way_to_write_class_methods, fido.class.class_method2 #my assertion
+  end
+
+5 - AboutClasses
+11  def test_heres_an_easy_way_to_call_class_methods_from_instance_methods
+    fido = Dog.new
+    assert_equal :still_another_way, fido.class.another_class_method
+    assert_equal :another_way_to_write_class_methods, fido.class.class_method2 #my assertion
+  end
+
+6 - AboutConstants
+12  class MyAnimals::Oyster < Animal
+    LEGS = 100 #my variable
+    def legs_in_oyster
+      LEGS
+    end
+  end
+
+  def test_who_wins_with_explicit_scoping_on_class_definition
+    assert_equal 100, MyAnimals::Oyster.new.legs_in_oyster
+  end
+
+7 - AboutControlStatements
+13 def test_if_then_statements
+    result = :default_value
+    if false #was true
+      result = :true_value
+    end
+    assert_equal :default_value, result #result is equal to default value
+  end
+
+14  def test_unless_statement
+    result = :default_value
+    unless false    # same as saying 'if !false', which evaluates as 'if true'
+      result = :false_value
+    end
+    assert_equal :false_value, result
+  end
+
+15  def test_unless_statement_evaluate_true
+    result = :default_value
+    unless true    # same as saying 'if !true', which evaluates as 'if false'
+      result = :true_value
+    end
+    assert_equal :default_value, result
+  end
+
+16  def test_break_statement
+    i = 1
+    result = 1
+    while true
+      break if !(i <= 10) #unless changed to equal if statement
+      result = result * i
+      i += 1
+    end
+    assert_equal 3628800, result
+  end
+
+8 - AboutDiceProject
+17
+  def test_dice_values_should_change_between_rolls
+    dice = DiceSet.new
+
+    dice.roll(5)
+    first_time = dice.values
+
+    dice.roll(5)
+    second_time = dice.values
+    assert_equal 5, dice.values.size #my assertion
+    assert_not_equal first_time, second_time,
+      "Two rolls should not be equal"
+
+  end
+
+9 - AboutExceptions
+18  def test_ensure_clause
+    result = nil
+    begin
+      fail "Oops"
+    rescue StandardError
+      result = :exception_handled #there was no code before
+    ensure
+      result = :always_run
+    end
+
+    assert_equal :always_run, result
+  end
+
+10 - AboutHashes
+19  def test_accessing_hashes_with_fetch
+    hash = { :one => "uno" }
+    assert_equal "uno", hash.fetch(:one)
+
+    assert_equal "uno", "#{hash.fetch(:one)}" #tried do the same with #{}
+
+    assert_raise(Exception) do
+      hash.fetch(:doesnt_exist)
+    end
+  end
+
+20  def test_hash_values
+    hash = { :one => "uno", :two => "dos" }
+    assert_equal 2, hash.values.size
+    assert_equal true, hash.values.include?("uno")
+    assert_equal true, hash.values.include?("dos")
+    assert_equal false, hash.values.include?("two") #my assertion
+    assert_equal Array, hash.values.class
+  end
+
+11 - AboutInheritance
+21  def test_subclasses_add_new_behavior
+    chico = Chihuahua.new("Chico")
+    assert_equal :happy, chico.wag
+
+    assert_raise(NoMethodError) do
+      fido = Dog.new("Fido")
+      fido.wag
+    end
+    assert_equal "Chico", chico.name #my assertion
+  end
+
+12 - AboutIteration
+22  def test_find_locates_the_first_element_matching_a_criteria
+    array = ["Jim", "Bill", "Clarence", "Doug", "Eli"]
+
+    assert_equal "Clarence", array.find { |item| item.size > 4 }
+    assert_equal nil, array.find { |item| item.equal?("Vasyl") } #my assertion to try equality
+  end
+
+23  def test_inject_will_blow_your_mind
+    result = [2, 3, 4].inject(0) { |sum, item| sum + item }
+    assert_equal 9, result
+
+    result2 = [2, 3, 4].inject(1) { |product, item| product * item }
+    assert_equal 24, result2
+
+
+    result2 = [2, 3, 4].inject(240) { |divide, item| divide / item } #my test
+    assert_equal 10, result2 #inject method make you able to add some other variables with default values in iteration
+
+  end
+
+24  def test_all_iteration_methods_work_on_any_collection_not_just_arrays
+    # Ranges act like a collection
+    result = (1..3).map { |item| item + 10 }
+    assert_equal [11,12,13], result
+
+    # Files act like a collection of lines
+    File.open("example_file.txt") do |file|
+      upcase_lines = file.map { |line| line.strip.upcase }
+      assert_equal ["THIS","IS","A","TEST"], upcase_lines
+    end
+
+    # NOTE: You can create your own collections that work with each,
+    # map, select, etc.
+
+    #my test
+    file = File.open("example_file.txt")
+       upcase_lines = file.map { |line| line.strip.upcase }
+       assert_equal ["THIS","IS","A","TEST"], upcase_lines
+  end
+
+13 - AboutJavaInterop
+25  # Open the Java ArrayList class and add a new method.
+  class Java::JavaUtil::ArrayList
+    def multiply_all
+      result = 1
+      each do |item|
+        result *= item
+      end
+      result
+    end
+  end
+
+14 - AboutKeywordArguments
+26  def test_keyword_arguments
+    assert_equal Array, method_with_keyword_arguments.class
+    assert_equal [1,"two"], method_with_keyword_arguments
+    assert_equal ["one", "two"], method_with_keyword_arguments(one: 'one')
+    assert_equal [1,2], method_with_keyword_arguments(two: 2)
+    assert_equal [1,"two"], method_with_keyword_arguments(one: 1) #my assertion
+  end
+
+15 - AboutMessagePassing
+27  def test_methods_can_be_invoked_more_dynamically
+    mc = MessageCatcher.new
+
+    assert mc.send("caught?")
+    assert mc.send("caught" + "?" )    # add "?"
+    assert mc.send("CAUGHT?".downcase )      # make it downcase
+  end
+
+16 - AboutMethods
+28  def test_sometimes_missing_parentheses_are_ambiguous #my def
+    res = my_global_method 2, 3
+    assert_equal 5, res
+  end
+
+17 - AboutModules
+29  def test_module_methods_can_affect_instance_variables_in_the_object
+    fido = Dog.new
+    assert_equal "Fido", fido.name
+    fido.set_name("Rover") #rename for Dog 
+    assert_equal "Rover", fido.name
+  end
+
+18 - AboutNil
+30  def test_nil_is_an_object
+    t = nil #t is a nil Object
+    assert_equal true, t.is_a?(Object), "Unlike NULL in other languages"
+  end
+
+31  def test_nil_has_a_few_methods_defined_on_it
+    assert_equal true, nil.nil?
+    assert_equal "", nil.to_s
+
+    assert_equal 0 + 0i, nil.to_c #my_assertion
+
+    assert_equal "nil", nil.inspect
+  end
+
+19 - AboutObject
+32  def test_everything_is_an_object
+    assert_equal true, 1.is_a?(Object)
+    assert_equal true, 1.5.is_a?(Object)
+    assert_equal true, "string".is_a?(Object)
+    assert_equal true, nil.is_a?(Object)
+    assert_equal false, !Object.is_a?(Object) #add_!_sign
+  end
+
+33  def test_small_integers_have_fixed_ids
+    assert_equal 1, 0.object_id
+    assert_equal 3, 1.object_id
+    assert_equal 5, 2.object_id
+    assert_equal 201, 100.object_id
+    assert_equal 2001, 1000.object_id #id == 2*object_id + 1
+  end
+
+34  def test_clone_creates_a_different_object
+    obj = Object.new
+    copy = obj.clone
+    copy1 = copy #create the same one
+    assert_equal true, obj!= copy
+    assert_equal true, obj.object_id != copy.object_id
+    assert_equal false, copy.object_id != copy1.object_id #their id are equal
+  end
+
+20 - AboutOpenClasses 
+35  def test_as_defined_dogs_do_bark
+    fido = Dog.new
+    assert_equal "WOOF", fido.bark
+    assert_equal "GAU", fido.voice #my assertion with my own def 
+  end
+
+21 - AboutRegularExpressions
+36  def test_sub_is_like_find_and_replace
+    assert_equal "one t-three", "one two-three".sub(/(t\w*)/) { $1[0, 1] }
+    assert_equal "one three", "one three".sub(/(e\w*)/) { $1[0, 1] } #my assertion
+  end
+
+22 - AboutSandwichCode
+37  def find_line2(file_name) #my test
+    file_sandwich(file_name) do |file|
+    while line = file.gets
+      return line if line.match(/e/)
+    end
+    end
+
+  end
+
+23 - AboutScope
+38
+  def test_class_names_are_just_constants
+    assert_equal true, MyString == ::String
+    assert_equal false, MyString == String #my assertion
+    assert_equal true, MyString == "HI".class
+  end
+
+39
+  def test_constants_can_be_looked_up_explicitly
+    assert_equal true, PI == AboutScope.const_get("PI")
+    assert_equal true, 3.1416 == AboutScope.const_get("PI") #my assertion
+    assert_equal true, MyString == AboutScope.const_get("MyString")
+  end
+
+24 - AboutString
+40  def test_use_double_quotes_to_create_strings_with_single_quotes
+    string = "Don't"
+    assert_equal 'Don\'t', string #tried with '' sign instead of ""
+    assert_equal "Don't", string
+  end
+
+41  def test_use_flexible_quoting_to_handle_really_hard_cases
+    a = %(flexible quotes can handle both ' and " characters)
+    b = %!flexible quotes can handle both ' and " characters!
+    c = %{flexible quotes can handle both ' and " characters}
+    d = %[flexible quotes can handle both ' and " characters] #my test
+    assert_equal true, a == b
+    assert_equal true, a == c
+    assert_equal true, a == d #my assertion
+  end
+
+42 def test_flexible_quotes_can_handle_multiple_lines
+    long_string = %{
+It was the best of times,
+It was the worst of times.
+}
+    l = long_string.length #it's boring to count it
+    assert_equal l, long_string.length
+    assert_equal 3, long_string.lines.count
+    assert_equal "\n", long_string[0,1]
+  end
+
+43  def test_plus_equals_also_will_leave_the_original_string_unmodified
+    original_string = "Hello, "
+    hi = original_string
+    there = "World"
+    hi += there #if there is a shovel operator, it would change the original string
+    assert_equal "Hello, ", original_string
+  end
+
+44  def test_you_can_get_a_substring_from_a_string
+    string = "Bacon, lettuce and tomato"
+    assert_equal "let", string[7,3]
+    assert_equal "let", string[7..9]
+    assert_equal "le", string[7...9] #my assert
+  end
+
+25 - AboutSymbols
+45  def test_symbols_cannot_be_concatenated
+    # Exceptions will be pondered further down the path
+    assert_raise(Exception) do
+      :cats + :dogs
+    end
+  end
+
+26 - AboutToStr
+46
+  class CanBeTreatedAsString #my class
+    def to_str
+      "string-like"
+    end
+  end
+
+  def test_to_str_returns_a_string_representation #my def
+    like_a_string = CanBeTreatedAsString.new
+    assert_equal "string-like", like_a_string.to_s
+  end
+
+27 - AboutTrueAndFalse
+47  def test_everything_else_is_treated_as_true
+    assert_equal :true_stuff, truth_value(1)
+    assert_equal :true_stuff, truth_value(0)
+    assert_equal :true_stuff, truth_value([])
+    assert_equal :true_stuff, truth_value({})
+    assert_equal :true_stuff, truth_value("Strings")
+    assert_equal :true_stuff, truth_value("")
+    assert_equal :false_stuff, truth_value(nil) #my assertion
+  end
+
+28 - AboutVariableScope
+48  def test_global_variables_retain_value_from_last_change
+    # What is $anywhere?
+    $anywhere = "Edited" #my assert
+    assert_equal "Edited", $anywhere
+  end
+
